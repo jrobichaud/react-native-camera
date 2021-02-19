@@ -2257,6 +2257,16 @@ BOOL _sessionInterrupted = NO;
                 image = [RNImageUtils invertColors:image];
             }
 
+            CGImageRef takenCGImage = image.CGImage;
+            CGRect cropRect = CGRectMake(0, 0, CGImageGetWidth(takenCGImage), CGImageGetHeight(takenCGImage));
+
+            CGRect rectOfInterest = [self rectOfInterest];
+
+            CGRect newRect = CGRectMake(cropRect.size.width * rectOfInterest.origin.y, cropRect.size.height * rectOfInterest.origin.x,
+                                        cropRect.size.width * rectOfInterest.size.height, cropRect.size.height * rectOfInterest.size.width);
+
+            image = [RNImageUtils cropImage:image toRect:newRect];
+
             [self.barcodeDetector findBarcodesInFrame:image scaleX:scaleX scaleY:scaleY completed:^(NSArray * barcodes) {
                 NSDictionary *eventBarcode = @{@"type" : @"barcode", @"barcodes" : barcodes};
                 [self onBarcodesDetected:eventBarcode];

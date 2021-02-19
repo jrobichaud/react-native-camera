@@ -149,7 +149,7 @@
     videoImage = [temporaryContext createCGImage:ciImage fromRect:boundingRect];
     CGRect croppedSize = AVMakeRectWithAspectRatioInsideRect(previewSize, boundingRect);
     CGImageRef croppedCGImage = CGImageCreateWithImageInRect(videoImage, croppedSize);
-    UIImage *image = [[UIImage alloc] initWithCGImage:videoImage];
+    UIImage *image = [[UIImage alloc] initWithCGImage:croppedCGImage];
     CGImageRelease(videoImage);
     CGImageRelease(croppedCGImage);
     return image;
